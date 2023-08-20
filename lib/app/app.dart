@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import 'package:gutenberg/app/route/route_navigation_observer.dart';
+
 class GutenbergApp extends StatefulWidget {
   const GutenbergApp({super.key});
 
@@ -31,6 +33,9 @@ class _GutenbergAppState extends State<GutenbergApp> {
       navigatorKey: _navigatorKey,
       title: 'Gutenberg',
       debugShowCheckedModeBanner: kDebugMode,
+      navigatorObservers: [
+        RouteNavigationObserver(),
+      ],
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),

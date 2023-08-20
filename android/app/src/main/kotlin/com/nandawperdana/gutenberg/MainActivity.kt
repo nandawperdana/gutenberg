@@ -1,4 +1,4 @@
-package com.example.gutenberg
+package com.nandawperdana.gutenberg
 
 import io.flutter.embedding.android.FlutterActivity
 
