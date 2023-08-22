@@ -7,7 +7,7 @@ import 'package:gutenberg/core/design/atomic/text/text_av.dart';
 import 'package:gutenberg/core/design/measurement/dimension.dart';
 import 'package:gutenberg/core/design/style/app_color.dart';
 import 'package:gutenberg/core/design/style/app_text_style.dart';
-import 'package:gutenberg/core/extension/context.dart';
+import 'package:gutenberg/core/ext/context.dart';
 
 abstract class ImageBaseAV extends StatelessWidget {
   /// It can be used if we want to load from local asset
