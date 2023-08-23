@@ -13,4 +13,16 @@ extension DioExceptionExt on DioException {
         return false;
     }
   }
+
+  bool get isApiError {
+    switch (type) {
+      case DioExceptionType.badCertificate:
+      case DioExceptionType.badResponse:
+      case DioExceptionType.cancel:
+      case DioExceptionType.unknown:
+        return true;
+      default:
+        return false;
+    }
+  }
 }

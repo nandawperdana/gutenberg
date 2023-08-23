@@ -3,7 +3,7 @@ import 'package:retrofit/http.dart';
 
 import 'package:gutenberg/core/network/api/client/api_dio.dart';
 import 'package:gutenberg/data/base/remote/response/base_response.dart';
-import 'package:gutenberg/data/book/remote/response/book_result.dart';
+import 'package:gutenberg/data/book/remote/response/book.dart';
 
 part 'book_service.g.dart';
 
@@ -13,7 +13,7 @@ abstract class BookService {
 
   /// Fetch books
   @GET('/books')
-  Future<BaseResponse<BookResult>> fetchBooks({
+  Future<BaseResponse<Book>> fetchBooks({
     @Query('page') int? page,
     @Query('search') String? keyword,
   });

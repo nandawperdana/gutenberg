@@ -4,10 +4,8 @@
 fvm := false
 
 # Check if fvm option is enabled
-FVM_ARG :=
 FVM_OPT :=
 ifeq ($(fvm),true)
-    FVM_ARG := --fvm
     FVM_OPT := fvm
 endif
 
@@ -23,7 +21,15 @@ help: ## This help dialog.
 		printf "%-30s %s\n" $$help_command $$help_info ; \
 	done
 
+init: get build
+
 format: ## Format and analyze the code
-	@$(FVM_ARG) flutter pub run import_sorter:main
-	@$(FVM_ARG) dart format lib/ test/
-	@$(FVM_ARG) flutter analyze
+	@$(FVM_OPT) flutter pub run import_sorter:main
+	@$(FVM_OPT) dart format lib/ test/
+	@$(FVM_OPT) dart analyze
+
+get:
+	@$(FVM_OPT) flutter pub get
+
+build:
+	@$(FVM_OPT) flutter pub run build_runner build --delete-conflicting-outputs

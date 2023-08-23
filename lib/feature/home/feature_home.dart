@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:gutenberg/app/entry/home/home_route.dart';
 import 'package:gutenberg/core/feature/feature_registry.dart';
+import 'package:gutenberg/core/locale/delegate.dart';
 import 'package:gutenberg/core/route/transporter.dart';
+import 'package:gutenberg/feature/home/locale/delegate.dart';
 
 class FeatureHome extends FeatureRegistry {
   @override
@@ -12,4 +14,7 @@ class FeatureHome extends FeatureRegistry {
       (context, information) => const SizedBox(),
     );
   }
+
+  @override
+  LocaleDelegate? getLocaleDelegate() => const HomeLocaleDelegate();
 }

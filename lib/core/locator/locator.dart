@@ -5,7 +5,7 @@ import 'package:gutenberg/core/route/locator/module.dart' as route;
 
 GetIt locator = GetIt.I;
 
-Future<void> initCore() async {
+void initCore() {
   network.registerModules(locator);
   route.registerModules(locator);
 }

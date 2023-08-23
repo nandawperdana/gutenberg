@@ -1,5 +1,5 @@
 import 'package:gutenberg/data/base/remote/response/base_response.dart';
-import 'package:gutenberg/data/book/remote/response/book_result.dart';
+import 'package:gutenberg/data/book/remote/response/book.dart';
 import 'package:gutenberg/data/book/remote/service/book_service.dart';
 
 class BookRepository {
@@ -8,7 +8,7 @@ class BookRepository {
   BookRepository({required BookService bookService})
       : _bookService = bookService;
 
-  Future<BaseResponse<BookResult>> fetchBooks({
+  Future<BaseResponse<Book>> fetchBooks({
     int page = 0,
     String keyword = '',
   }) {

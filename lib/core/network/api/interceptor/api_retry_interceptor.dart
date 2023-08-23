@@ -24,6 +24,8 @@ class ApiRetryInterceptor extends Interceptor {
       } catch (e) {
         _handleError(e, err, handler);
       }
+    } else if (err.isApiError) {
+      _handleError(ApiException(err), err, handler);
     } else {
       super.onError(err, handler);
     }
@@ -31,7 +33,7 @@ class ApiRetryInterceptor extends Interceptor {
 
   void _handleError(
     Object e,
-    DioException dioError,
+    DioException err,
     ErrorInterceptorHandler handler,
   ) {
     if (e.runtimeType == DioException) {
@@ -39,7 +41,7 @@ class ApiRetryInterceptor extends Interceptor {
     } else {
       super.onError(
         DioException(
-          requestOptions: dioError.requestOptions,
+          requestOptions: err.requestOptions,
           response: null,
           type: DioExceptionType.connectionTimeout,
           error: RetryException(),

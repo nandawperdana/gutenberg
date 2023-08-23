@@ -19,7 +19,7 @@ class _BookService implements BookService {
   String? baseUrl;
 
   @override
-  Future<BaseResponse<BookResult>> fetchBooks({
+  Future<BaseResponse<Book>> fetchBooks({
     int? page,
     String? keyword,
   }) async {
@@ -31,8 +31,8 @@ class _BookService implements BookService {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<BaseResponse<BookResult>>(Options(
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<BaseResponse<Book>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -48,9 +48,9 @@ class _BookService implements BookService {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = BaseResponse<BookResult>.fromJson(
+    final value = BaseResponse<Book>.fromJson(
       _result.data!,
-      (json) => BookResult.fromJson(json as Map<String, dynamic>),
+      (json) => Book.fromJson(json as Map<String, dynamic>),
     );
     return value;
   }
