@@ -1,0 +1,13 @@
+{
+  "@@last_modified": "2023-08-23T17:50:15.641288",
+  "books": "Books",
+  "@books": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "searchPlaceholder": "Search here...",
+  "@searchPlaceholder": {
+    "type": "text",
+    "placeholders": {}
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "images" : [
+    {
+      "size" : "192x192",
+      "idiom" : "universal",
+      "filename" : "ic_launcher.png",
+      "platform" : "ios"
+    }
+  ],
+  "info" : {
+    "version" : 1,
+    "author" : "xcode"
+  }
+}

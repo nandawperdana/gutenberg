@@ -1,0 +1,10 @@
+{
+  "@@locale": "en_US",
+  "@@last_modified": "2023-08-23T11:24:28.424509",
+  "status": "Status",
+  "@status": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "coba": "coba"
+}
