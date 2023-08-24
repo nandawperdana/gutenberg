@@ -1,11 +1,15 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
+import 'package:gutenberg/core/design/atomic/text/text_av.dart';
 import 'package:gutenberg/core/design/measurement/app_dimen.dart';
+import 'package:gutenberg/core/design/molecule/shimmer/shimmer_mv.dart';
+import 'package:gutenberg/core/design/style/app_text_style.dart';
 import 'package:gutenberg/data/book/remote/response/book.dart';
 import 'package:gutenberg/domain/base/load.dart';
+import 'package:gutenberg/feature/home/ext/context.dart';
 import 'package:gutenberg/feature/home/molecule/book_card_mv.dart';
 import 'package:gutenberg/feature/home/screen/bloc/home_bloc.dart';
 
@@ -45,38 +49,80 @@ class HomeBookContentState extends State<HomeBookContent> {
 
         pagingController.value = PagingState(
           nextPageKey: state.page,
-          itemList: state.books.data,
-          error: state.books.error,
+          itemList: state.books.isSuccess ? state.books.data : null,
+          error: state.books.isError ? state.books.error : null,
         );
       },
       builder: (context, state) {
-        if (state.books.isSuccess) {
-          return PagedListView.separated(
-            pagingController: pagingController,
-            padding: const EdgeInsets.symmetric(
-              vertical: AppDimen.paddingSmall,
-              horizontal: AppDimen.paddingMedium,
-            ),
-            builderDelegate: PagedChildBuilderDelegate<Book>(
-              itemBuilder: (context, item, index) {
-                return BookCardMV(
-                  id: item.id,
-                  title: item.title,
-                  imageUrl: item.getImageUrl(),
-                  languages: item.languages ?? [],
-                  authors: item.authors?.map((e) => e.name).toList() ?? [],
-                );
-              },
-            ),
-            shrinkWrap: true,
-            addAutomaticKeepAlives: false,
-            addRepaintBoundaries: false,
-            separatorBuilder: (BuildContext context, int index) {
-              return const SizedBox(height: AppDimen.paddingMedium);
+        return PagedListView.separated(
+          pagingController: pagingController,
+          padding: const EdgeInsets.symmetric(
+            vertical: AppDimen.paddingSmall,
+            horizontal: AppDimen.paddingMedium,
+          ),
+          builderDelegate: PagedChildBuilderDelegate<Book>(
+            itemBuilder: (context, item, index) {
+              return BookCardMV(
+                id: item.id,
+                title: item.title,
+                imageUrl: item.getImageUrl(),
+                languages: item.languages ?? [],
+                authors: item.authors?.map((e) => e.name).toList() ?? [],
+                downloadCount: item.downloadCount,
+                onTap: () {
+                  context
+                      .read<HomeBloc>()
+                      .add(NavigateToBookScreenEvent(id: item.id));
+                },
+              );
             },
-          );
-        }
-        return const SizedBox.shrink();
+            firstPageProgressIndicatorBuilder: (context) {
+              return ListView.builder(
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                itemCount: 4,
+                itemBuilder: (context, index) {
+                  return const Padding(
+                    padding: EdgeInsets.only(
+                      bottom: AppDimen.paddingMedium,
+                    ),
+                    child: ShimmerMV(height: 120.0),
+                  );
+                },
+              );
+            },
+            newPageProgressIndicatorBuilder: (context) {
+              return const Padding(
+                padding: EdgeInsets.all(AppDimen.paddingMedium),
+                child: CupertinoActivityIndicator(),
+              );
+            },
+            noItemsFoundIndicatorBuilder: (context) {
+              return Padding(
+                padding: const EdgeInsets.all(AppDimen.paddingMedium),
+                child: TextAV(
+                  text: context.locale.keywordNotFound,
+                  align: TextAlign.center,
+                  style: AppText.body14,
+                ),
+              );
+            },
+            firstPageErrorIndicatorBuilder: (context) {
+              return TextAV(
+                text: state.books.error.toString(),
+                align: TextAlign.center,
+                style: AppText.body14,
+              );
+            },
+          ),
+          shrinkWrap: true,
+          addAutomaticKeepAlives: false,
+          addRepaintBoundaries: false,
+          physics: const BouncingScrollPhysics(),
+          separatorBuilder: (BuildContext context, int index) {
+            return const SizedBox(height: AppDimen.paddingMedium);
+          },
+        );
       },
     );
   }

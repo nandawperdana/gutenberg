@@ -7,17 +7,17 @@ import 'package:gutenberg/core/network/api/interceptor/api_retry_interceptor.dar
 import 'package:gutenberg/core/network/api/interceptor/network_interceptor.dart';
 
 class ApiDio extends DioForNative {
-  late final ApiRetryInterceptor _apiRetryInterceptor;
-
-  late final NetworkCheckingInterceptor _networkCheckingInterceptor;
+  // late final ApiRetryInterceptor _apiRetryInterceptor;
+  //
+  // late final NetworkCheckingInterceptor _networkCheckingInterceptor;
 
   ApiDio({
     required ApiRetryInterceptor apiRetryInterceptor,
     required NetworkCheckingInterceptor networkCheckingInterceptor,
     BaseOptions? options,
   }) : super(options) {
-    _apiRetryInterceptor = apiRetryInterceptor;
-    _networkCheckingInterceptor = networkCheckingInterceptor;
+    // _apiRetryInterceptor = apiRetryInterceptor;
+    // _networkCheckingInterceptor = networkCheckingInterceptor;
 
     _configureOptions();
     _configureInterceptors();
@@ -33,8 +33,8 @@ class ApiDio extends DioForNative {
   }
 
   void _configureInterceptors() {
-    interceptors
-      ..add(_networkCheckingInterceptor)
-      ..add(_apiRetryInterceptor);
+    // interceptors
+    //   ..add(_networkCheckingInterceptor)
+    //   ..add(_apiRetryInterceptor);
   }
 }

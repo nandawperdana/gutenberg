@@ -59,5 +59,5 @@ extension LoadExt<T> on Load<T> {
 
   T? get dataOrNull => this is Success ? data : null;
 
-  Exception get error => (this as Error).error;
+  Exception get error => this is Error ? (this as Error).error : null;
 }

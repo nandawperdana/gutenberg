@@ -5,8 +5,8 @@ part 'author.g.dart';
 @JsonSerializable()
 class Author {
   final String name;
-  final int birthYear;
-  final int deathYear;
+  final int? birthYear;
+  final int? deathYear;
 
   Author({
     required this.name,

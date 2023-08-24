@@ -6,8 +6,8 @@ import 'package:gutenberg/core/network/api/interceptor/network_interceptor.dart'
 import 'package:gutenberg/core/network/connection/internet_connection_checker.dart';
 
 void registerModules(GetIt locator) {
-  _registerClients(locator);
   _registerInterceptorModules(locator);
+  _registerClients(locator);
 }
 
 void _registerClients(GetIt locator) {
@@ -17,8 +17,9 @@ void _registerClients(GetIt locator) {
 }
 
 void _registerInterceptorModules(GetIt locator) {
-  locator.registerLazySingleton(
-      () => ApiRetryInterceptor(apiDio: locator<ApiDio>()));
+  locator.registerLazySingleton(() => InternetConnectionChecker());
+
+  locator.registerLazySingleton(() => ApiRetryInterceptor());
 
   locator.registerLazySingleton(() => NetworkCheckingInterceptor(
       internetConnectionChecker: locator<InternetConnectionChecker>()));

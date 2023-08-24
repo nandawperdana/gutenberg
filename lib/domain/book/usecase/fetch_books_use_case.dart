@@ -11,15 +11,21 @@ class FetchBooksUseCase {
   }) : _bookRepository = bookRepository;
 
   Future<Response<List<Book>>> execute({
-    int page = 0,
-    String keyword = '',
+    int page = 1,
+    String? keyword,
+    List<String>? ids,
   }) async {
     try {
       final response = await _bookRepository.fetchBooks(
         page: page,
-        keyword: keyword,
+        keyword: ids == null ? keyword : null,
+        ids: ids?.join(','),
       );
-      return Success(response.results, response.getNextPage());
+      return Success(
+        response.results,
+        count: response.count,
+        next: response.getNextPage(),
+      );
     } catch (error) {
       return Error(error);
     }

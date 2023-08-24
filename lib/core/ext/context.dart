@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 extension BuildContextExt on BuildContext {
-  MediaQueryData getMediaQuery() {
+  MediaQueryData get mediaQuery {
     return MediaQuery.of(this);
   }
 
   int? getImageCacheSize(double? size) {
     if (size == null) return null;
-    return (getMediaQuery().devicePixelRatio * size).round();
+    return (mediaQuery.devicePixelRatio * size).round();
   }
 }

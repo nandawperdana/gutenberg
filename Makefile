@@ -1,11 +1,11 @@
 
-.PHONY: format
+.PHONY: init format get build run
 # Variables
-fvm := false
+fvm := 0
 
 # Check if fvm option is enabled
 FVM_OPT :=
-ifeq ($(fvm),true)
+ifeq ($(fvm),1)
     FVM_OPT := fvm
 endif
 
@@ -33,3 +33,7 @@ get:
 
 build:
 	@$(FVM_OPT) flutter pub run build_runner build --delete-conflicting-outputs
+
+run:
+	@echo "╠ Running the app..."
+	$(FVM_OPT) flutter run

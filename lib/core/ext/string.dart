@@ -1,9 +1,9 @@
 extension NullableStringExt on String? {
-  bool isNullOrEmpty() {
+  bool get isNullOrEmpty {
     return this == null || this!.isEmpty;
   }
 
-  String orEmpty() {
+  String get orEmpty {
     return this ?? '';
   }
 }

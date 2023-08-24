@@ -135,4 +135,22 @@ class AppTextStyle {
         fontWeight: fontWeight ?? this.fontWeight,
         decoration: decoration ?? this.decoration,
       );
+
+  TextStyle toTextStyle() => TextStyle(
+        fontSize: fontSize,
+        fontWeight: fontWeight,
+        fontFamily: fontFamily,
+        decoration: getDecoration(),
+      );
+
+  TextDecoration? getDecoration([bool isUnderline = false]) {
+    if (isUnderline && decoration != null) {
+      TextDecoration.combine([TextDecoration.underline, decoration!]);
+    } else if (isUnderline && decoration == null) {
+      return TextDecoration.underline;
+    } else {
+      return decoration;
+    }
+    return null;
+  }
 }

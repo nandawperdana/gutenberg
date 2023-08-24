@@ -21,6 +21,8 @@ Book _$BookFromJson(Map<String, dynamic> json) => Book(
       languages: (json['languages'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
+      copyright: json['copyright'] as bool?,
+      mediaType: json['media_type'] as String?,
       downloadCount: json['download_count'] as int?,
     );
 
@@ -31,5 +33,7 @@ Map<String, dynamic> _$BookToJson(Book instance) => <String, dynamic>{
       'subjects': instance.subjects,
       'formats': instance.formats,
       'languages': instance.languages,
+      'copyright': instance.copyright,
+      'media_type': instance.mediaType,
       'download_count': instance.downloadCount,
     };

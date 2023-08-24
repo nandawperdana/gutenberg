@@ -40,19 +40,8 @@ abstract class TextBaseAV extends StatelessWidget {
         fontSize: style.fontSize,
         fontWeight: style.fontWeight,
         fontFamily: style.fontFamily,
-        decoration: getDecoration(),
+        decoration: style.getDecoration(isUnderline),
       ),
     );
-  }
-
-  TextDecoration? getDecoration() {
-    if (isUnderline && style.decoration != null) {
-      TextDecoration.combine([TextDecoration.underline, style.decoration!]);
-    } else if (isUnderline && style.decoration == null) {
-      return TextDecoration.underline;
-    } else {
-      return style.decoration;
-    }
-    return null;
   }
 }

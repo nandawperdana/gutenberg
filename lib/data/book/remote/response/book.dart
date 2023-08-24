@@ -12,6 +12,11 @@ class Book {
   final List<String>? subjects;
   final Map<String, String>? formats;
   final List<String>? languages;
+  final bool? copyright;
+
+  @JsonKey(name: 'media_type')
+  final String? mediaType;
+
   @JsonKey(name: 'download_count')
   final int? downloadCount;
 
@@ -22,6 +27,8 @@ class Book {
     this.subjects,
     this.formats,
     this.languages,
+    this.copyright,
+    this.mediaType,
     this.downloadCount,
   });
 

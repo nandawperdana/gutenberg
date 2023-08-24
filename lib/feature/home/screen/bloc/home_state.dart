@@ -4,12 +4,14 @@ class HomeState extends Equatable {
   final Load<List<Book>> books;
   final bool isSearchActive;
   final String? keyword;
+  final bool isLastPage;
   final int? page;
 
   const HomeState({
     this.books = const Load.initial(),
     this.isSearchActive = false,
     this.keyword,
+    this.isLastPage = false,
     this.page,
   });
 
@@ -18,6 +20,7 @@ class HomeState extends Equatable {
         books,
         isSearchActive,
         keyword,
+        isLastPage,
         page,
       ];
 
@@ -25,13 +28,14 @@ class HomeState extends Equatable {
     Load<List<Book>>? books,
     String? keyword,
     bool? isSearchActive,
+    bool? isLastPage,
     int? page,
-    dynamic error,
   }) {
     return HomeState(
       books: books ?? this.books,
       isSearchActive: isSearchActive ?? this.isSearchActive,
       keyword: keyword ?? this.keyword,
+      isLastPage: isLastPage ?? this.isLastPage,
       page: page ?? this.page,
     );
   }

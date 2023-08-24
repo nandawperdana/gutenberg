@@ -22,11 +22,13 @@ class _BookService implements BookService {
   Future<BaseResponse<Book>> fetchBooks({
     int? page,
     String? keyword,
+    String? ids,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'page': page,
       r'search': keyword,
+      r'ids': ids,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};

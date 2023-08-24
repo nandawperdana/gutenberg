@@ -1,6 +1,7 @@
 const maxRetry = 3;
 const cacheDuration = 15 * 60; // 15 minutes
-const timeOutDuration = Duration(seconds: 10);
+const timeOutDuration = Duration(seconds: 30);
+const maxPageResults = 32;
 
 const keyRequestConfig = 'request_config';
 

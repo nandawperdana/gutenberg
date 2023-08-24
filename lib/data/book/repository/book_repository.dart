@@ -9,9 +9,14 @@ class BookRepository {
       : _bookService = bookService;
 
   Future<BaseResponse<Book>> fetchBooks({
-    int page = 0,
-    String keyword = '',
+    int page = 1,
+    String? keyword,
+    String? ids,
   }) {
-    return _bookService.fetchBooks(page: page, keyword: keyword);
+    return _bookService.fetchBooks(
+      page: page,
+      keyword: keyword,
+      ids: ids,
+    );
   }
 }

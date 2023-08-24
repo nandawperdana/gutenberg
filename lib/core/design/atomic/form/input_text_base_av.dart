@@ -138,9 +138,9 @@ abstract class InputTextBaseAV extends StatelessWidget {
                       BoxConstraints(maxWidth: suffixWidgetMaxWidth ?? 48),
                   decoration: BoxDecoration(
                     color: suffixWidgetBackgroundColor ?? AppColor.gray10,
-                    borderRadius: const BorderRadius.only(
-                      topRight: Radius.circular(AppDimen.paddingExtraSmall),
-                      bottomRight: Radius.circular(AppDimen.paddingExtraSmall),
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(borderRadius),
+                      bottomRight: Radius.circular(borderRadius),
                     ),
                   ),
                   child: suffixWidget,

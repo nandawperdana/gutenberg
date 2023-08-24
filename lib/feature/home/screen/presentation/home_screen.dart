@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'package:gutenberg/core/design/molecule/app_bar/app_bar_mv.dart';
-import 'package:gutenberg/feature/home/screen/presentation/widget/home_app_bar.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:gutenberg/core/design/style/app_color.dart';
+import 'package:gutenberg/core/locator/locator.dart';
+import 'package:gutenberg/core/route/transporter.dart';
+import 'package:gutenberg/domain/book/usecase/fetch_books_use_case.dart';
+import 'package:gutenberg/feature/home/screen/bloc/home_bloc.dart';
 import 'package:gutenberg/feature/home/screen/presentation/widget/home_book_content.dart';
 import 'package:gutenberg/feature/home/screen/presentation/widget/home_search_bar.dart';
 
@@ -10,21 +15,46 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => HomeBloc(
+        fetchBooksUseCase: locator<FetchBooksUseCase>(),
+        transporter: locator<Transporter>(),
+      )..add(const FetchEvent()),
+      child: const HomeScreenView(),
+    );
+  }
+}
+
+class HomeScreenView extends StatelessWidget {
+  const HomeScreenView({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
         return false;
       },
-      child: const Scaffold(
-        appBar: AppBarMV(
-          title: HomeAppBar(),
-        ),
+      child: Scaffold(
         body: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              HomeSearchBar(),
-              Expanded(child: HomeBookContent()),
-            ],
+          child: BlocBuilder<HomeBloc, HomeState>(
+            builder: (context, state) {
+              return SafeArea(
+                child: RefreshIndicator(
+                  backgroundColor: Colors.white,
+                  color: AppColor.primary,
+                  onRefresh: () async {
+                    context.read<HomeBloc>().add(const FetchEvent());
+                  },
+                  child: const Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      HomeSearchBar(),
+                      Expanded(child: HomeBookContent()),
+                    ],
+                  ),
+                ),
+              );
+            },
           ),
         ),
       ),

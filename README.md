@@ -32,13 +32,18 @@ Follow these instructions to get a copy of the project up and running on your lo
 2. Navigate to the project directory:
 
    ```bash
-   cd my-flutter-app
+   cd gutenberg
    ```
 
 3. Install dependencies:
 
    ```bash
-   flutter pub get
+   make init
+   ```
+   
+   If you're using FVM
+   ```bash
+   make init fvm=1
    ```
 
 ### Usage
@@ -48,7 +53,7 @@ Follow these instructions to get a copy of the project up and running on your lo
 2. Run the app:
 
    ```bash
-   flutter run
+   make run
    ```
 
    This will launch the app on the connected Android device or emulator.
@@ -56,8 +61,11 @@ Follow these instructions to get a copy of the project up and running on your lo
 3. Similarly, for iOS, start an iOS simulator or connect a physical iOS device and run:
 
    ```bash
-   flutter run
+   make run
    ```
+
+### Screenshots
+<img src="screenshots/iPhone Details.png" width="200"> <img src="screenshots/iPhone List.png" width="200">
 
 ### API Integration
 

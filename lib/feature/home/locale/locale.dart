@@ -14,4 +14,11 @@ class HomeLocale {
       name: 'searchPlaceholder',
     );
   }
+
+  String get keywordNotFound {
+    return Intl.message(
+      'Sorry, it seems like we couldn\'t find any books with the keyword you searched for.\nPlease try using a different keyword.',
+      name: 'searchPlaceholder',
+    );
+  }
 }

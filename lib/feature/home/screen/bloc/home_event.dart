@@ -7,7 +7,7 @@ abstract class HomeEvent extends Equatable {
 class FetchEvent extends HomeEvent {
   final int page;
 
-  const FetchEvent({this.page = 0});
+  const FetchEvent({this.page = 1});
 
   @override
   List<Object> get props => [page];
@@ -21,15 +21,6 @@ class SearchEvent extends HomeEvent {
   @override
   List<Object> get props => [keyword];
 }
-//
-// class SwitchItemViewEvent extends HomeEvent {
-//   final HomeItemViewType itemViewType;
-//
-//   const SwitchItemViewEvent(this.itemViewType);
-//
-//   @override
-//   List<Object> get props => [itemViewType];
-// }
 
 class NavigateToBookScreenEvent extends HomeEvent {
   final int id;

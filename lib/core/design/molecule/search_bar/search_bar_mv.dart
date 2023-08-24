@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 
+import 'package:feather_icons/feather_icons.dart';
+
 import 'package:gutenberg/core/design/atomic/form/input_text_av.dart';
 import 'package:gutenberg/core/design/atomic/form/input_text_base_av.dart';
 import 'package:gutenberg/core/design/measurement/app_dimen.dart';
+import 'package:gutenberg/core/design/style/app_color.dart';
 import 'package:gutenberg/core/design/style/app_text_style.dart';
 
 class SearchBarMV extends StatelessWidget {
@@ -27,7 +30,7 @@ class SearchBarMV extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.grey,
+        color: AppColor.gray70,
         borderRadius: BorderRadius.circular(AppDimen.radiusMedium),
         boxShadow: [
           BoxShadow(
@@ -45,7 +48,13 @@ class SearchBarMV extends StatelessWidget {
         onTextSubmitted: onSearch,
         textInputAction: textInputAction ?? TextInputAction.search,
         placeholder: placeholder,
-        suffixWidget: suffixIcon,
+        borderRadius: AppDimen.radiusMedium,
+        suffixWidget: suffixIcon ??
+            const Icon(
+              FeatherIcons.search,
+              color: Colors.black45,
+            ),
+        fillColor: AppColor.systemOffWhite,
       ),
     );
   }

@@ -16,5 +16,6 @@ abstract class BookService {
   Future<BaseResponse<Book>> fetchBooks({
     @Query('page') int? page,
     @Query('search') String? keyword,
+    @Query('ids') String? ids,
   });
 }

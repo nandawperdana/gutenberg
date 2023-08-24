@@ -22,9 +22,20 @@ class Error<T> extends Response<T> {
 
 class Success<T> extends Response<T> {
   final T? data;
-  final int next;
+  final int? count;
+  final int? next;
 
-  Success(this.data, this.next);
+  // another meta data
+  final Map<String, dynamic> meta = {};
+
+  Success(
+    this.data, {
+    this.count,
+    this.next,
+    Map<String, dynamic>? meta,
+  }) {
+    if (meta != null) this.meta.addAll(meta);
+  }
 }
 
 extension ResponseExt<T> on Response<T> {
