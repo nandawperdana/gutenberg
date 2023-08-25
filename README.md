@@ -13,6 +13,33 @@ Welcome to **Gutenberg Free Books App**, a mobile application built using the Fl
 - Explore book details including title, author, and publication year.
 - Search for books based on keywords.
 
+## Assumptions
+
+Design and implement an app as a long term project.
+
+## Project Structures
+
+      ├── android         --> Android build folder
+      ├── ios             --> iOS build folder
+      ├── assets          --> App Assets
+      ├── lib
+      │   ├── app         --> Main app and route definition
+      │   ├── core        --> Core module
+      │   │   ├── design  --> Design system, color palletes, and styles definitions
+      │   │   ├── env     --> Environment config
+      │   │   ├── ext     --> Extension files
+      │   │   ├── feature --> Feature registry
+      │   │   ├── locale  --> App core locale
+      │   │   ├── locator --> Dependency injection init
+      │   │   ├── network --> Core network including: API, interceptor, etc
+      │   │   ├── route   --> App route management
+      │   │   ├── screen  --> Core screens
+      │   │   └── util    --> App utils
+      │   ├── data        --> Data module, contains: API models
+      │   ├── domain      --> Domain module, contains: API use cases
+      │   ├── feature     --> Feature modules
+      └── test            --> Test folders
+
 ## Getting Started
 
 Follow these instructions to get a copy of the project up and running on your local machine for development and testing purposes.
@@ -65,7 +92,7 @@ Follow these instructions to get a copy of the project up and running on your lo
    ```
 
 ### Screenshots
-<img src="screenshots/iPhone Details.png" width="200"> <img src="screenshots/iPhone List.png" width="200">
+<img src="screenshots/iPhone Details.jpeg" width="200"> <img src="screenshots/iPhone List.jpeg" width="200">
 
 ### API Integration
 
