@@ -14,12 +14,14 @@ class FetchBooksUseCase {
     int page = 1,
     String? keyword,
     List<String>? ids,
+    String? topic,
   }) async {
     try {
       final response = await _bookRepository.fetchBooks(
         page: page,
         keyword: ids == null ? keyword : null,
         ids: ids?.join(','),
+        topic: ids == null ? topic : null,
       );
       return Success(
         response.results,

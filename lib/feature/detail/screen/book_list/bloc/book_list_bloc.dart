@@ -6,56 +6,54 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:gutenberg/app/entry/detail/detail_route.dart';
-import 'package:gutenberg/core/ext/string.dart';
 import 'package:gutenberg/core/route/transporter.dart';
 import 'package:gutenberg/data/book/remote/response/book.dart';
 import 'package:gutenberg/domain/base/load.dart';
 import 'package:gutenberg/domain/base/response.dart' as api;
+import 'package:gutenberg/domain/base/response.dart';
 import 'package:gutenberg/domain/book/usecase/fetch_books_use_case.dart';
 
-part 'home_state.dart';
+part 'book_list_event.dart';
 
-part 'home_event.dart';
+part 'book_list_state.dart';
 
-class HomeBloc extends Bloc<HomeEvent, HomeState> {
+class BookListBloc extends Bloc<BookListEvent, BookListState> {
   late final FetchBooksUseCase _fetchBooksUseCase;
   late final Transporter _transporter;
 
-  HomeBloc({
+  BookListBloc({
     required FetchBooksUseCase fetchBooksUseCase,
     required Transporter transporter,
-  }) : super(const HomeState()) {
+  }) : super(const BookListState()) {
     _fetchBooksUseCase = fetchBooksUseCase;
     _transporter = transporter;
 
-    on<FetchEvent>(_fetchBooks);
-    on<SearchEvent>(_search);
+    on<FetchEvent>(_fetchEvent);
     on<NavigateToBookScreenEvent>(_navigateToBookScreenEvent);
   }
 
-  Future<void> _fetchBooks(FetchEvent event, Emitter<HomeState> emit) async {
-    if (state.books.isLoading) return;
-
+  Future<void> _fetchEvent(
+    FetchEvent event,
+    Emitter<BookListState> emit,
+  ) async {
     try {
-      final isRefreshEvent = event == const FetchEvent();
+      if (state.books.isLoading) return;
 
       /// initial state
-      emit(state.copyWith(
-        books: isRefreshEvent ? const Load.loading() : state.books,
-      ));
+      emit(state.copyWith(books: state.books));
 
       /// fetch book data
       final response = await _fetchBooksUseCase.execute(
         page: event.page,
-        keyword: state.keyword,
+        keyword: event.keyword,
       );
 
-      /// set data
       if (response.isSuccess) {
         final successResponse = response as api.Success<List<Book>>;
+
         final currentItem = state.books.isSuccess ? state.books.data : <Book>[];
-        final books =
-            (isRefreshEvent ? <Book>[] : currentItem) + (response.data ?? []);
+
+        final books = currentItem + (response.data ?? []);
         final lastPage = successResponse.next == 0;
 
         emit(state.copyWith(
@@ -66,31 +64,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       } else {
         emit(state.copyWith(books: Load.error(response.error)));
       }
-    } catch (error) {
-      emit(state.copyWith(books: Load.error(error)));
-    }
-  }
-
-  Future<void> _search(
-    SearchEvent event,
-    Emitter<HomeState> emit,
-  ) async {
-    try {
-      if (event.keyword.toLowerCase() != state.keyword?.orEmpty.toLowerCase()) {
-        emit(state.copyWith(keyword: event.keyword));
-
-        add(const FetchEvent());
-      }
-    } catch (error, stacktrace) {
-      if (kDebugMode) {
-        print('$error\n$stacktrace');
-      }
+    } catch (e) {
+      emit(state.copyWith(books: Load.error(e)));
     }
   }
 
   Future<void> _navigateToBookScreenEvent(
     NavigateToBookScreenEvent event,
-    Emitter<HomeState> _,
+    Emitter<BookListState> _,
   ) async {
     try {
       unawaited(

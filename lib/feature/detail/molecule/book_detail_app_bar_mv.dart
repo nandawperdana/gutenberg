@@ -25,6 +25,7 @@ class BookDetailAppBarMV extends StatelessWidget {
         expandedHeight: flexibleHeight,
         backgroundColor: AppColor.systemWhite,
         foregroundColor: AppColor.systemBlack,
+        elevation: 0,
         flexibleSpace: FlexibleSpaceBar(
           background: ImageAV(
             source: data.getImageUrl(),

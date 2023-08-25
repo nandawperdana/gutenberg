@@ -12,11 +12,13 @@ class BookRepository {
     int page = 1,
     String? keyword,
     String? ids,
+    String? topic,
   }) {
     return _bookService.fetchBooks(
       page: page,
       keyword: keyword,
       ids: ids,
+      topic: topic,
     );
   }
 }

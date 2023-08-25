@@ -10,11 +10,6 @@ import 'package:gutenberg/core/design/style/app_text_style.dart';
 import 'package:gutenberg/core/ext/context.dart';
 
 abstract class ImageBaseAV extends StatelessWidget {
-  /// It can be used if we want to load from local asset
-  /// e.g. 'asset/tree.jpg'
-  ///
-  /// And if we want to load from server using http or https
-  /// e.g. https://google.com/blackpink.jpg
   final String source;
 
   abstract final Dimension dimension;
@@ -92,10 +87,11 @@ class _ErrorImage extends StatelessWidget {
       return Container(
         width: dimension.width > 0 ? dimension.width : null,
         height: dimension.height > 0 ? dimension.height : null,
-        color: Colors.redAccent,
+        color: AppColor.red20,
         child: const TextAV(
           text: 'Image not found',
           style: AppText.caption08,
+          color: AppColor.systemOffWhite,
         ),
       );
     }

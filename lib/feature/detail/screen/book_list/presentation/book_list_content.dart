@@ -3,24 +3,23 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
-import 'package:gutenberg/core/design/atomic/text/text_av.dart';
 import 'package:gutenberg/core/design/measurement/app_dimen.dart';
 import 'package:gutenberg/core/design/molecule/book/book_card_mv.dart';
 import 'package:gutenberg/core/design/molecule/shimmer/shimmer_mv.dart';
-import 'package:gutenberg/core/design/style/app_text_style.dart';
 import 'package:gutenberg/data/book/remote/response/book.dart';
 import 'package:gutenberg/domain/base/load.dart';
-import 'package:gutenberg/feature/home/ext/context.dart';
-import 'package:gutenberg/feature/home/screen/bloc/home_bloc.dart';
+import 'package:gutenberg/feature/detail/screen/book_list/bloc/book_list_bloc.dart';
 
-class HomeBookContent extends StatefulWidget {
-  const HomeBookContent({super.key});
+class BookListContent extends StatefulWidget {
+  const BookListContent({Key? key, required this.keyword}) : super(key: key);
+
+  final String keyword;
 
   @override
-  State<StatefulWidget> createState() => HomeBookContentState();
+  State<StatefulWidget> createState() => BookListContentState();
 }
 
-class HomeBookContentState extends State<HomeBookContent> {
+class BookListContentState extends State<BookListContent> {
   final PagingController<int, Book> pagingController =
       PagingController(firstPageKey: 1);
 
@@ -29,7 +28,9 @@ class HomeBookContentState extends State<HomeBookContent> {
     super.initState();
     pagingController.addPageRequestListener((pageKey) {
       if (pageKey == 1) return;
-      context.read<HomeBloc>().add(FetchEvent(page: pageKey));
+      context
+          .read<BookListBloc>()
+          .add(FetchEvent(keyword: widget.keyword, page: pageKey));
     });
   }
 
@@ -41,7 +42,7 @@ class HomeBookContentState extends State<HomeBookContent> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<HomeBloc, HomeState>(
+    return BlocConsumer<BookListBloc, BookListState>(
       listener: (context, state) {
         if (state.books.isError) {
           pagingController.error = state.books.error;
@@ -71,7 +72,7 @@ class HomeBookContentState extends State<HomeBookContent> {
                 downloadCount: item.downloadCount,
                 onTap: () {
                   context
-                      .read<HomeBloc>()
+                      .read<BookListBloc>()
                       .add(NavigateToBookScreenEvent(id: item.id));
                 },
               );
@@ -95,23 +96,6 @@ class HomeBookContentState extends State<HomeBookContent> {
               return const Padding(
                 padding: EdgeInsets.all(AppDimen.paddingMedium),
                 child: CupertinoActivityIndicator(),
-              );
-            },
-            noItemsFoundIndicatorBuilder: (context) {
-              return Padding(
-                padding: const EdgeInsets.all(AppDimen.paddingMedium),
-                child: TextAV(
-                  text: context.locale.keywordNotFound,
-                  align: TextAlign.center,
-                  style: AppText.body14,
-                ),
-              );
-            },
-            firstPageErrorIndicatorBuilder: (context) {
-              return TextAV(
-                text: state.books.error.toString(),
-                align: TextAlign.center,
-                style: AppText.body14,
               );
             },
           ),

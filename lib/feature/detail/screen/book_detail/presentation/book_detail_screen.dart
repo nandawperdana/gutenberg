@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:gutenberg/core/locator/locator.dart';
+import 'package:gutenberg/core/route/transporter.dart';
 import 'package:gutenberg/domain/base/load.dart';
 import 'package:gutenberg/domain/book/usecase/fetch_books_use_case.dart';
 import 'package:gutenberg/feature/detail/molecule/book_detail_app_bar_mv.dart';
@@ -23,6 +24,7 @@ class BookDetailScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => BookDetailBloc(
         fetchBooksUseCase: locator<FetchBooksUseCase>(),
+        transporter: locator<Transporter>(),
       )..add(FetchDetailEvent(bookId)),
       child: const BookDetailView(),
     );
@@ -46,7 +48,32 @@ class BookDetailView extends StatelessWidget {
                 ),
                 SliverToBoxAdapter(
                   child: state.book.isSuccess
-                      ? BookDetailSectionMV(book: state.book.data)
+                      ? BookDetailSectionMV(
+                          book: state.book.data,
+                          moreBooksAuthor:
+                              state.moreBooksAuthor.dataOrNull ?? [],
+                          moreBooksTopic: state.moreBooksTopic.dataOrNull ?? [],
+                          onTapButton: (url) {
+                            context
+                                .read<BookDetailBloc>()
+                                .add(OnTapPreviewEvent(url));
+                          },
+                          onTapMoreBook: (id) {
+                            context
+                                .read<BookDetailBloc>()
+                                .add(NavigateToBookScreenEvent(id));
+                          },
+                          onTapAuthor: (name) {
+                            context
+                                .read<BookDetailBloc>()
+                                .add(NavigateToBookListScreenEvent(name));
+                          },
+                          onTapSeeAll: (name) {
+                            context
+                                .read<BookDetailBloc>()
+                                .add(NavigateToBookListScreenEvent(name));
+                          },
+                        )
                       : SizedBox(
                           height: MediaQuery.of(context).size.height -
                               kToolbarHeight,

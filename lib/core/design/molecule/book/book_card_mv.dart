@@ -75,19 +75,21 @@ class BookCardMV extends StatelessWidget {
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: authors.map(
-                            (author) {
-                              return Padding(
-                                padding: const EdgeInsets.only(
-                                  right: AppDimen.paddingExtraSmall,
+                          children: [
+                            for (int i = 0; i < 2; i++)
+                              if (i < authors.length)
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    right: AppDimen.paddingExtraSmall,
+                                  ),
+                                  child: TextAV(
+                                    text: (authors.length > 2 && i == 1)
+                                        ? '${authors[i]} +${authors.length - 2} more'
+                                        : authors[i],
+                                    style: AppText.caption10,
+                                  ),
                                 ),
-                                child: TextAV(
-                                  text: author,
-                                  style: AppText.caption10,
-                                ),
-                              );
-                            },
-                          ).toList(),
+                          ],
                         ),
                       const Spacer(),
                       Row(
