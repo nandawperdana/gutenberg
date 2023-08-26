@@ -8,6 +8,8 @@ import 'package:meta/meta.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
+import 'package:gutenberg/core/locale/delegate.dart';
+import '../core/locale/locale.dart';
 import 'fake/fake_http_client.dart';
 import 'util/window.dart';
 
@@ -16,12 +18,12 @@ typedef OnSetupTestComponent = Future<void> Function();
 typedef OnCreateTestComponent<T> = T Function(BuildContext context);
 
 typedef OnRunTestComponent = Future<void> Function(WidgetTester tester);
-typedef CallableComponent = Widget Function();
 
 @isTest
 void testComponent(
   String description, {
   bool skip = false,
+  List<LocaleDelegate?>? localeDelegate,
   required Widget component,
   OnSetupTestComponent? onSetupTest,
   required OnRunTestComponent onRunTest,
@@ -36,6 +38,7 @@ void testComponent(
           return MediaQuery(
             data: const MediaQueryData(),
             child: _createMaterialApp(
+              localeDelegate: localeDelegate,
               component: component,
             ),
           );
@@ -47,36 +50,10 @@ void testComponent(
 }
 
 @isTest
-void testCallableBlocComponent<T extends StateStreamableSource<Object?>>(
-  String description, {
-  bool skip = false,
-  required CallableComponent callableComponent,
-  OnSetupTestComponent? onSetupTest,
-  required OnCreateTestComponent<T> onCreateTest,
-  required OnRunTestComponent onRunTest,
-}) async {
-  _testBaseComponent(
-    description,
-    skip: skip,
-    onSetupTest: onSetupTest,
-    onCreateComponent: () {
-      return _createMaterialApp(
-        component: Provider<T>(
-          create: onCreateTest,
-          builder: (context, child) {
-            return callableComponent();
-          },
-        ),
-      );
-    },
-    onRunTest: onRunTest,
-  );
-}
-
-@isTest
 void testBlocComponent<T extends StateStreamableSource<Object?>>(
   String description, {
   bool skip = false,
+  List<LocaleDelegate?>? localeDelegate,
   required Widget component,
   OnSetupTestComponent? onSetupTest,
   required OnCreateTestComponent<T> onCreateTest,
@@ -88,6 +65,7 @@ void testBlocComponent<T extends StateStreamableSource<Object?>>(
     onSetupTest: onSetupTest,
     onCreateComponent: () {
       return _createMaterialApp(
+        localeDelegate: localeDelegate,
         component: Provider<T>(
           create: onCreateTest,
           builder: (context, child) {
@@ -161,10 +139,12 @@ void _testBaseComponent(
 }
 
 Widget _createMaterialApp({
+  List<LocaleDelegate?>? localeDelegate,
   required Widget component,
 }) {
   GlobalKey<ScaffoldMessengerState>? scaffoldMessengerKey;
   return MaterialApp(
+    localizationsDelegates: getLocalizationsDelegates(localeDelegate),
     home: Scaffold(body: component),
     scaffoldMessengerKey: scaffoldMessengerKey,
     debugShowCheckedModeBanner: false,

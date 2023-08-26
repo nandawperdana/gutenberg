@@ -26,19 +26,15 @@ class HomeSearchBarState extends State<HomeSearchBar> {
   @override
   Widget build(BuildContext context) {
     focusNode.requestFocus();
-    return BlocBuilder<HomeBloc, HomeState>(
-      builder: (context, state) {
-        return Padding(
-          padding: const EdgeInsets.all(AppDimen.paddingMedium),
-          child: SearchBarMV(
-            placeholder: context.locale.searchPlaceholder,
-            onSearch: (keyword) {
-              context.read<HomeBloc>().add(SearchEvent(keyword: keyword));
-            },
-            controller: textController,
-          ),
-        );
-      },
+    return Padding(
+      padding: const EdgeInsets.all(AppDimen.paddingMedium),
+      child: SearchBarMV(
+        placeholder: context.locale.searchPlaceholder,
+        onSearch: (keyword) {
+          context.read<HomeBloc>().add(SearchEvent(keyword: keyword));
+        },
+        controller: textController,
+      ),
     );
   }
 }
