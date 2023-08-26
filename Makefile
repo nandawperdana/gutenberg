@@ -1,5 +1,5 @@
 
-.PHONY: init format get build run
+.PHONY: init format get build test run
 # Variables
 fvm := 0
 
@@ -33,6 +33,9 @@ get:
 
 build:
 	@$(FVM_OPT) flutter pub run build_runner build --delete-conflicting-outputs
+
+test:
+	@$(FVM_OPT) flutter test
 
 run:
 	@echo "╠ Running the app..."

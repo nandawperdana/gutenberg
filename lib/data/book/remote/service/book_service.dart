@@ -17,5 +17,6 @@ abstract class BookService {
     @Query('page') int? page,
     @Query('search') String? keyword,
     @Query('ids') String? ids,
+    @Query('topic') String? topic,
   });
 }

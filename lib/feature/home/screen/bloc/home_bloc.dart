@@ -7,7 +7,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:gutenberg/app/entry/detail/detail_route.dart';
 import 'package:gutenberg/core/ext/string.dart';
-import 'package:gutenberg/core/network/api/client/config.dart';
 import 'package:gutenberg/core/route/transporter.dart';
 import 'package:gutenberg/data/book/remote/response/book.dart';
 import 'package:gutenberg/domain/base/load.dart';
@@ -57,12 +56,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         final currentItem = state.books.isSuccess ? state.books.data : <Book>[];
         final books =
             (isRefreshEvent ? <Book>[] : currentItem) + (response.data ?? []);
-        final isLastPage = _isLastPage(successResponse.count ?? 0);
+        final lastPage = successResponse.next == 0;
 
         emit(state.copyWith(
           books: Load.success(books),
-          page: isLastPage ? event.page : event.page + 1,
-          isLastPage: isLastPage,
+          page: lastPage ? event.page : event.page + 1,
+          isLastPage: lastPage,
         ));
       } else {
         emit(state.copyWith(books: Load.error(response.error)));
@@ -87,10 +86,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         print('$error\n$stacktrace');
       }
     }
-  }
-
-  bool _isLastPage(int totalResult) {
-    return totalResult % maxPageResults == 0;
   }
 
   Future<void> _navigateToBookScreenEvent(

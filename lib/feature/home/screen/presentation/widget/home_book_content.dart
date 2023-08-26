@@ -5,12 +5,12 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import 'package:gutenberg/core/design/atomic/text/text_av.dart';
 import 'package:gutenberg/core/design/measurement/app_dimen.dart';
+import 'package:gutenberg/core/design/molecule/book/book_card_mv.dart';
 import 'package:gutenberg/core/design/molecule/shimmer/shimmer_mv.dart';
 import 'package:gutenberg/core/design/style/app_text_style.dart';
 import 'package:gutenberg/data/book/remote/response/book.dart';
 import 'package:gutenberg/domain/base/load.dart';
 import 'package:gutenberg/feature/home/ext/context.dart';
-import 'package:gutenberg/feature/home/molecule/book_card_mv.dart';
 import 'package:gutenberg/feature/home/screen/bloc/home_bloc.dart';
 
 class HomeBookContent extends StatefulWidget {
@@ -48,7 +48,7 @@ class HomeBookContentState extends State<HomeBookContent> {
         }
 
         pagingController.value = PagingState(
-          nextPageKey: state.page,
+          nextPageKey: state.isLastPage ? null : state.page,
           itemList: state.books.isSuccess ? state.books.data : null,
           error: state.books.isError ? state.books.error : null,
         );

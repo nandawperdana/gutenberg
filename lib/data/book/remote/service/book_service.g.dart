@@ -23,12 +23,14 @@ class _BookService implements BookService {
     int? page,
     String? keyword,
     String? ids,
+    String? topic,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'page': page,
       r'search': keyword,
       r'ids': ids,
+      r'topic': topic,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
